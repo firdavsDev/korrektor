@@ -57,14 +57,14 @@ pnpm run build # yoki turbo build
 
 ## CXSMXS [kosmos] haqida
 
-CXSMXS stek bu UwUssimo Robinson tomonidan yaratilgan web stack hisoblanib, UwUssimoning yillar davomida
+CXSMXS stek bu Yuri Katsuki tomonidan yaratilgan web stack hisoblanib, Yurining yillar davomida
 to'plangan tajribalarini birlashtirgan holda yaratilgan va ancha produktiv sinovlardan o'tkazish natijasida
 tarqatilgan stek hisoblanadi. Ushbu stek eng zamonivy texnologiyalar o'z ichiga olib, produktivlikdan tashqari
 dasturchilar ergonomikasi haqida ham qayg'uradi. Stek yaralishidan maqsad esa, dasturchilarga qiyinchilik
 tug'dirmagan holda eng tez va produktiv web platforma va yechimlar yaratishdir.
 
 **Ko'proq ma'lumotlar
-uchun:** [V1](https://www.uwussi.moe/stack/cxsmxs) | [V2](https://www.uwussi.moe/stack/cxsmxs-v2.0)
+uchun:** [V1](https://www.katsuki.moe/stack/cxsmxs) | [V2](https://www.katsuki.moe/stack/cxsmxs-v2.0)
 
 ## Litsenziya
 
