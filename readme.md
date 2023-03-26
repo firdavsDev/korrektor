@@ -64,7 +64,7 @@ dasturchilar ergonomikasi haqida ham qayg'uradi. Stek yaralishidan maqsad esa, d
 tug'dirmagan holda eng tez va produktiv web platforma va yechimlar yaratishdir.
 
 **Ko'proq ma'lumotlar
-uchun:** [V1](https://www.katsuki.moe/stack/cxsmxs) | [V2](https://www.katsuki.moe/stack/cxsmxs-v2.0)
+uchun:** [V1](https://www.katsuki.moe/stack/cxsmxs) | [V2](https://www.katsuki.moe/stack/cxsmxs-v2.0) | [V3](https://www.katsuki.moe/stack/cxsmxs-v3.0)
 
 ## Litsenziya
 
