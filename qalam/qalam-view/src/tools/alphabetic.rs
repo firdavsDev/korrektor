@@ -19,14 +19,28 @@ pub async fn content(body: web::Json<Request>, auth: BearerAuth) -> HttpResponse
 
     let process = alphabetic::sort(content.as_str());
 
-    middleware(
-        HttpResponse::Ok().json(json!({
-            "message": "tools/alphabetic",
-            "query": content,
-            "content": process
-        })),
-        auth,
-    )
+    match process {
+        Ok(result) => {
+            middleware(
+                HttpResponse::Ok().json(json!({
+                    "message": "tools/alphabetic",
+                    "query": content,
+                    "content": result
+                })),
+                auth,
+            )
+        },
+        Err(err) => {
+            middleware(
+                HttpResponse::BadRequest().json(json!({
+                    "message": "tools/alphabetic",
+                    "query": content,
+                    "content": err
+                })),
+                auth,
+            )
+        }
+    }
 }
 
 #[cfg(test)]
@@ -35,14 +49,25 @@ mod tests {
 
     #[actix_web::test]
     async fn content_test() {
-        let text_content = "G‘ozal estafeta chilonzor o'zbek chiroyli";
-        let process = alphabetic::sort(text_content);
+        let text = "G‘ozal estafeta chilonzor o'zbek chiroyli";
+        let process = alphabetic::sort(text);
 
-        let response = json!({
-            "message": "tools/alphabetic",
-            "query": text_content,
-            "content": process
-        });
+        let response = match process {
+            Ok(result) => {
+                json!({
+                    "message": "tools/alphabetic",
+                    "query": text,
+                    "content": result
+                })
+            },
+            Err(err) => {
+                json!({
+                    "message": "tools/alphabetic",
+                    "query": text,
+                    "content": err
+                })
+            }
+        };
 
         let static_json =
             "{\"content\":\"estafeta o‘zbek chilonzor chiroyli G‘ozal\",\"message\":\"tools/alphabetic\",\"query\":\"G‘ozal estafeta chilonzor o'zbek chiroyli\"}";
