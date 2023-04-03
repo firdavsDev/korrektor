@@ -13,15 +13,15 @@ pub async fn main() -> HttpResponse {
     }))
 }
 
-#[post("/number")]
-pub async fn content(body: web::Json<Request>, auth: BearerAuth) -> HttpResponse {
+#[post("/number/integer")]
+pub async fn integer(body: web::Json<Request>, auth: BearerAuth) -> HttpResponse {
     let content_string = body.into_inner().content;
 
     let content: i64 = match content_string.trim().parse() {
         Ok(num) => num,
         Err(_) => {
             return HttpResponse::BadRequest().json(json!({
-                "message": "tools/number",
+                "message": "tools/number/integer",
                 "content": "Invalid input in body: can not convert input into integer."}));
         }
     };
@@ -30,7 +30,7 @@ pub async fn content(body: web::Json<Request>, auth: BearerAuth) -> HttpResponse
 
     middleware(
         HttpResponse::Ok().json(json!({
-            "message": "tools/number",
+            "message": "tools/number/integer",
             "query": content_string,
             "content": process
         })),
