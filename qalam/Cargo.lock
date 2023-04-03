@@ -676,6 +676,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "fancy-regex"
+version = "0.11.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b95f7c0680e4142284cf8b22c14a476e87d61b004a3a0861872b32ef7ead40a2"
+dependencies = [
+ "bit-set",
+ "regex",
+]
+
+[[package]]
 name = "filetime"
 version = "0.2.20"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -921,13 +931,16 @@ dependencies = [
 
 [[package]]
 name = "korrektor"
-version = "0.2.3"
+version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e12dcefd40c538e910e568a08bdf399ebae592ef43020f10e36dccc693ff70d3"
+checksum = "028dab76ff4377a4ce898b5fb2a757ccf52889d0b95a3ef99f2e41855a45250c"
 dependencies = [
+ "fancy-regex 0.11.0",
  "itertools",
+ "korrektor-utils",
  "pcre",
  "regex",
+ "serde",
 ]
 
 [[package]]
@@ -935,8 +948,18 @@ name = "korrektor-rs-private"
 version = "0.1.0"
 dependencies = [
  "Inflector",
- "fancy-regex",
+ "fancy-regex 0.10.0",
  "ispell",
+ "pcre",
+ "regex",
+]
+
+[[package]]
+name = "korrektor-utils"
+version = "0.1.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "77cb398d1615c46e5a7abd80ed8261e7cc9c442de481894ba85d47658b1e2efc"
+dependencies = [
  "pcre",
  "regex",
 ]
