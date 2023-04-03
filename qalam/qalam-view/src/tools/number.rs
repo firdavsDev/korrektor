@@ -15,27 +15,32 @@ pub async fn main() -> HttpResponse {
 
 #[post("/number/integer")]
 pub async fn integer(body: web::Json<Request>, auth: BearerAuth) -> HttpResponse {
-    let content_string = body.into_inner().content;
+    let content = body.into_inner().content;
 
-    let content: i64 = match content_string.trim().parse() {
-        Ok(num) => num,
-        Err(_) => {
-            return HttpResponse::BadRequest().json(json!({
-                "message": "tools/number/integer",
-                "content": "Invalid input in body: can not convert input into integer."}));
+    let process = number::integer_to_word(&content);
+
+    match process {
+        Ok(result) => {
+            middleware(
+                HttpResponse::Ok().json(json!({
+                    "message": "tools/number/integer",
+                    "query": content,
+                    "content": result
+                })),
+                auth,
+            )
+        },
+        Err(err) => {
+            middleware(
+                HttpResponse::BadRequest().json(json!({
+                    "message": "tools/number/integer",
+                    "query": content,
+                    "content": err
+                })),
+                auth,
+            )
         }
-    };
-
-    let process = number::integer_to_word(content);
-
-    middleware(
-        HttpResponse::Ok().json(json!({
-            "message": "tools/number/integer",
-            "query": content_string,
-            "content": process
-        })),
-        auth,
-    )
+    }
 }
 
 #[cfg(test)]
@@ -44,16 +49,27 @@ mod tests {
 
     #[actix_web::test]
     async fn content_test() {
-        let text_content = 12;
-        let process = number::integer_to_word(text_content);
+        let text = "12";
+        let process = number::integer_to_word(text);
 
-        let response = json!({
-            "message": "tools/number",
-            "query": text_content,
-            "content": process
-        });
+        let response = match process {
+            Ok(result) => {
+                    json!({
+                    "message": "tools/number/integer",
+                    "query": text,
+                    "content": result
+                })
+            },
+            Err(err) => {
+                    json!({
+                    "message": "tools/number/integer",
+                    "query": text,
+                    "content": err
+                })
+            }
+        };
 
-        let static_json = "{\"content\":\"o‘n ikki\",\"message\":\"tools/number\",\"query\":12}";
+        let static_json = "{\"content\":\"o‘n ikki\",\"message\":\"tools/number/integer\",\"query\":\"12\"}";
 
         assert_eq!(serde_json::to_string(&response).unwrap(), static_json);
     }
