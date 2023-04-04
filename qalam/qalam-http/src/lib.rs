@@ -65,6 +65,7 @@ pub async fn server() -> std::io::Result<()> {
                     .service(tools::index)
                     // Number to word
                     .service(tools::number::main)
+                    .service(tools::number::content)
                     .service(tools::number::integer)
                     .service(tools::number::float)
                     // Tokenizer

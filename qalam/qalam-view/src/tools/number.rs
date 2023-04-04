@@ -13,6 +13,37 @@ pub async fn main() -> HttpResponse {
     }))
 }
 
+#[post("/number/content")]
+pub async fn content(body: web::Json<Request>, auth: BearerAuth) -> HttpResponse {
+    let text_content = body.into_inner().content;
+
+    let process = number::numbers_to_word(&text_content);
+
+    match process {
+        Ok(result) => {
+            middleware(
+                HttpResponse::Ok().json(json!({
+                    "message": "tools/number/content",
+                    "query": text_content,
+                    "content": result
+                })),
+                auth,
+            )
+        },
+        Err(err) => {
+            let error = err.to_string();
+            middleware(
+                HttpResponse::BadRequest().json(json!({
+                    "message": "tools/number/content",
+                    "query": text_content,
+                    "content": error
+                })),
+                auth,
+            )
+        }
+    }
+}
+
 #[post("/number/integer")]
 pub async fn integer(body: web::Json<Request>, auth: BearerAuth) -> HttpResponse {
     let text_content = body.into_inner().content;
@@ -78,6 +109,33 @@ pub async fn float(body: web::Json<Request>, auth: BearerAuth) -> HttpResponse {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[actix_web::test]
+    async fn content_test() {
+        let text = "12, 998336523409 12.5";
+        let process = number::numbers_to_word(text);
+
+        let response = match process {
+            Ok(result) => {
+                json!({
+                    "message": "tools/number/content",
+                    "query": text,
+                    "content": result
+                })
+            },
+            Err(err) => {
+                json!({
+                    "message": "tools/number/content",
+                    "query": text,
+                    "content": err
+                })
+            }
+        };
+
+        let static_json = "{\"content\":\"o‘n ikki, 998336523409 o‘n ikki butun o‘ndan besh\",\"message\":\"tools/number/content\",\"query\":\"12, 998336523409 12.5\"}";
+
+        assert_eq!(serde_json::to_string(&response).unwrap(), static_json);
+    }
 
     #[actix_web::test]
     async fn integer_test() {
