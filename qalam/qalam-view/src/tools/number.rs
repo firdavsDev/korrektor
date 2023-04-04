@@ -15,16 +15,16 @@ pub async fn main() -> HttpResponse {
 
 #[post("/number/integer")]
 pub async fn integer(body: web::Json<Request>, auth: BearerAuth) -> HttpResponse {
-    let content = body.into_inner().content;
+    let text_content = body.into_inner().content;
 
-    let process = number::integer_to_word(&content);
+    let process = number::integer_to_word(&text_content);
 
     match process {
         Ok(result) => {
             middleware(
                 HttpResponse::Ok().json(json!({
                     "message": "tools/number/integer",
-                    "query": content,
+                    "query": text_content,
                     "content": result
                 })),
                 auth,
@@ -35,7 +35,38 @@ pub async fn integer(body: web::Json<Request>, auth: BearerAuth) -> HttpResponse
             middleware(
                 HttpResponse::BadRequest().json(json!({
                     "message": "tools/number/integer",
-                    "query": content,
+                    "query": text_content,
+                    "content": error
+                })),
+                auth,
+            )
+        }
+    }
+}
+
+#[post("/number/float")]
+pub async fn float(body: web::Json<Request>, auth: BearerAuth) -> HttpResponse {
+    let text_content = body.into_inner().content;
+
+    let process = number::float_to_word(&text_content);
+
+    match process {
+        Ok(result) => {
+            middleware(
+                HttpResponse::Ok().json(json!({
+                    "message": "tools/number/float",
+                    "query": text_content,
+                    "content": result
+                })),
+                auth,
+            )
+        },
+        Err(err) => {
+            let error = err.to_string();
+            middleware(
+                HttpResponse::BadRequest().json(json!({
+                    "message": "tools/number/float",
+                    "query": text_content,
                     "content": error
                 })),
                 auth,
@@ -49,7 +80,7 @@ mod tests {
     use super::*;
 
     #[actix_web::test]
-    async fn content_test() {
+    async fn integer_test() {
         let text = "12";
         let process = number::integer_to_word(text);
 
@@ -71,6 +102,33 @@ mod tests {
         };
 
         let static_json = "{\"content\":\"o‘n ikki\",\"message\":\"tools/number/integer\",\"query\":\"12\"}";
+
+        assert_eq!(serde_json::to_string(&response).unwrap(), static_json);
+    }
+
+    #[actix_web::test]
+    async fn float_test() {
+        let text = "12.25";
+        let process = number::float_to_word(text);
+
+        let response = match process {
+            Ok(result) => {
+                json!({
+                    "message": "tools/number/float",
+                    "query": text,
+                    "content": result
+                })
+            },
+            Err(err) => {
+                json!({
+                    "message": "tools/number/float",
+                    "query": text,
+                    "content": err
+                })
+            }
+        };
+
+        let static_json = "{\"content\":\"o‘n ikki butun yuzdan yigirma besh\",\"message\":\"tools/number/float\",\"query\":\"12.25\"}";
 
         assert_eq!(serde_json::to_string(&response).unwrap(), static_json);
     }
