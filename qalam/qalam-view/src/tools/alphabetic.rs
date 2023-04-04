@@ -31,11 +31,12 @@ pub async fn content(body: web::Json<Request>, auth: BearerAuth) -> HttpResponse
             )
         },
         Err(err) => {
+            let error = err.to_string();
             middleware(
                 HttpResponse::BadRequest().json(json!({
                     "message": "tools/alphabetic",
                     "query": content,
-                    "content": err
+                    "content": error
                 })),
                 auth,
             )

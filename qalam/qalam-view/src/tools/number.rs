@@ -31,11 +31,12 @@ pub async fn integer(body: web::Json<Request>, auth: BearerAuth) -> HttpResponse
             )
         },
         Err(err) => {
+            let error = err.to_string();
             middleware(
                 HttpResponse::BadRequest().json(json!({
                     "message": "tools/number/integer",
                     "query": content,
-                    "content": err
+                    "content": error
                 })),
                 auth,
             )
