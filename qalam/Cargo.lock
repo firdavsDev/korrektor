@@ -931,9 +931,9 @@ dependencies = [
 
 [[package]]
 name = "korrektor"
-version = "0.3.0"
+version = "0.3.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "028dab76ff4377a4ce898b5fb2a757ccf52889d0b95a3ef99f2e41855a45250c"
+checksum = "b3e1ecd3cb04fe172d88b150d6051a7a8cd24880a3b85e5ba923747948252583"
 dependencies = [
  "fancy-regex 0.11.0",
  "itertools",
