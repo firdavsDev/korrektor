@@ -950,6 +950,7 @@ dependencies = [
  "Inflector",
  "fancy-regex 0.10.0",
  "ispell",
+ "korrektor-utils",
  "pcre",
  "regex",
 ]
