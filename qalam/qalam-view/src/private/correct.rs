@@ -7,7 +7,7 @@ use serde_json::json;
 
 #[get("/correct")]
 pub async fn main() -> HttpResponse {
-    HttpResponse::Ok().json(json!({
+    HttpResponse::BadRequest().json(json!({
         "endpoint": "/correct",
         "docs": "https://docs.korrektor.uz/correct"
     }))
@@ -28,7 +28,6 @@ pub async fn content(
     middleware(
         HttpResponse::Ok().json(json!({
             "message": "private/correct/content",
-            "query": content,
             "content": process
         })),
         auth,
@@ -44,7 +43,6 @@ pub async fn modifiers(body: web::Json<Request>, auth: BearerAuth) -> HttpRespon
     middleware(
         HttpResponse::Ok().json(json!({
             "message": "private/correct/modifiers",
-            "query": text_content,
             "content": process
         })),
         auth,
@@ -60,7 +58,6 @@ pub async fn syntax(body: web::Json<Request>, auth: BearerAuth) -> HttpResponse 
     middleware(
         HttpResponse::Ok().json(json!({
             "message": "private/correct/syntax",
-            "query": text_content,
             "content": process
         })),
         auth,

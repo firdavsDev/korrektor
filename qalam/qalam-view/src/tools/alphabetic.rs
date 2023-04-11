@@ -7,7 +7,7 @@ use serde_json::json;
 
 #[get("/alphabetic")]
 pub async fn main() -> HttpResponse {
-    HttpResponse::Ok().json(json!({
+    HttpResponse::BadRequest().json(json!({
         "endpoint": "/alphabetic",
         "docs": "https://docs.korrektor.uz/alphabetic"
     }))
@@ -20,16 +20,13 @@ pub async fn content(body: web::Json<Request>, auth: BearerAuth) -> HttpResponse
     let process = alphabetic::sort(content.as_str());
 
     match process {
-        Ok(result) => {
-            middleware(
-                HttpResponse::Ok().json(json!({
-                    "message": "tools/alphabetic",
-                    "query": content,
-                    "content": result
-                })),
-                auth,
-            )
-        },
+        Ok(result) => middleware(
+            HttpResponse::Ok().json(json!({
+                "message": "tools/alphabetic",
+                "content": result
+            })),
+            auth,
+        ),
         Err(err) => {
             let error = err.to_string();
             middleware(
@@ -60,7 +57,7 @@ mod tests {
                     "query": text,
                     "content": result
                 })
-            },
+            }
             Err(err) => {
                 json!({
                     "message": "tools/alphabetic",

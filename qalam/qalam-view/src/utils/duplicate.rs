@@ -5,7 +5,7 @@ use serde_json::json;
 
 #[get("/duplicate")]
 pub async fn main() -> HttpResponse {
-    HttpResponse::Ok().json(json!({
+    HttpResponse::BadRequest().json(json!({
         "endpoint": "/duplicate",
         "docs": "https://docs.korrektor.uz/duplicate"
     }))
@@ -19,7 +19,6 @@ pub async fn content(body: web::Json<Request>) -> HttpResponse {
 
     HttpResponse::Ok().json(json!({
         "message": "utils/duplicate",
-        "query": content,
         "content": process
     }))
 }

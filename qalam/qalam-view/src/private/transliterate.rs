@@ -7,7 +7,7 @@ use serde_json::json;
 
 #[get("/transliterate")]
 pub async fn main() -> HttpResponse {
-    HttpResponse::Ok().json(json!({
+    HttpResponse::BadRequest().json(json!({
         "endpoint": "/transliterate",
         "docs": "https://docs.korrektor.uz/transliterate"
     }))
@@ -22,12 +22,11 @@ pub async fn content(
     let language = path.into_inner();
     let content = body.into_inner().content;
 
-    let process = korrektor_rs_private::transliterator::to(content.clone(), &language);
+    let process = korrektor_rs_private::transliterator::to(content, &language);
 
     middleware(
         HttpResponse::Ok().json(json!({
             "message": "private/transliterate",
-            "query": content,
             "content": process
         })),
         auth,

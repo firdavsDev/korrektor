@@ -7,7 +7,7 @@ use serde_json::json;
 
 #[get("/number")]
 pub async fn main() -> HttpResponse {
-    HttpResponse::Ok().json(json!({
+    HttpResponse::BadRequest().json(json!({
         "endpoint": "/number",
         "docs": "https://docs.korrektor.uz/number"
     }))
@@ -20,16 +20,13 @@ pub async fn content(body: web::Json<Request>, auth: BearerAuth) -> HttpResponse
     let process = number::numbers_to_word(&text_content);
 
     match process {
-        Ok(result) => {
-            middleware(
-                HttpResponse::Ok().json(json!({
-                    "message": "tools/number/content",
-                    "query": text_content,
-                    "content": result
-                })),
-                auth,
-            )
-        },
+        Ok(result) => middleware(
+            HttpResponse::Ok().json(json!({
+                "message": "tools/number/content",
+                "content": result
+            })),
+            auth,
+        ),
         Err(err) => {
             let error = err.to_string();
             middleware(
@@ -51,16 +48,13 @@ pub async fn integer(body: web::Json<Request>, auth: BearerAuth) -> HttpResponse
     let process = number::integer_to_word(&text_content);
 
     match process {
-        Ok(result) => {
-            middleware(
-                HttpResponse::Ok().json(json!({
-                    "message": "tools/number/integer",
-                    "query": text_content,
-                    "content": result
-                })),
-                auth,
-            )
-        },
+        Ok(result) => middleware(
+            HttpResponse::Ok().json(json!({
+                "message": "tools/number/integer",
+                "content": result
+            })),
+            auth,
+        ),
         Err(err) => {
             let error = err.to_string();
             middleware(
@@ -82,16 +76,13 @@ pub async fn float(body: web::Json<Request>, auth: BearerAuth) -> HttpResponse {
     let process = number::float_to_word(&text_content);
 
     match process {
-        Ok(result) => {
-            middleware(
-                HttpResponse::Ok().json(json!({
-                    "message": "tools/number/float",
-                    "query": text_content,
-                    "content": result
-                })),
-                auth,
-            )
-        },
+        Ok(result) => middleware(
+            HttpResponse::Ok().json(json!({
+                "message": "tools/number/float",
+                "content": result
+            })),
+            auth,
+        ),
         Err(err) => {
             let error = err.to_string();
             middleware(
@@ -122,7 +113,7 @@ mod tests {
                     "query": text,
                     "content": result
                 })
-            },
+            }
             Err(err) => {
                 json!({
                     "message": "tools/number/content",
@@ -144,14 +135,14 @@ mod tests {
 
         let response = match process {
             Ok(result) => {
-                    json!({
+                json!({
                     "message": "tools/number/integer",
                     "query": text,
                     "content": result
                 })
-            },
+            }
             Err(err) => {
-                    json!({
+                json!({
                     "message": "tools/number/integer",
                     "query": text,
                     "content": err
@@ -159,7 +150,8 @@ mod tests {
             }
         };
 
-        let static_json = "{\"content\":\"o‘n ikki\",\"message\":\"tools/number/integer\",\"query\":\"12\"}";
+        let static_json =
+            "{\"content\":\"o‘n ikki\",\"message\":\"tools/number/integer\",\"query\":\"12\"}";
 
         assert_eq!(serde_json::to_string(&response).unwrap(), static_json);
     }
@@ -176,7 +168,7 @@ mod tests {
                     "query": text,
                     "content": result
                 })
-            },
+            }
             Err(err) => {
                 json!({
                     "message": "tools/number/float",

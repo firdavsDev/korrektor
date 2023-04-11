@@ -5,7 +5,7 @@ use serde_json::json;
 
 #[get("/frequency")]
 pub async fn main() -> HttpResponse {
-    HttpResponse::Ok().json(json!({
+    HttpResponse::BadRequest().json(json!({
         "endpoint": "/frequency",
         "docs": "https://docs.korrektor.uz/frequency"
     }))
@@ -19,7 +19,6 @@ pub async fn content(body: web::Json<Request>) -> HttpResponse {
 
     HttpResponse::Ok().json(json!({
         "message": "utils/frequency",
-        "query": content,
         "content": process
     }))
 }

@@ -46,46 +46,32 @@ pub async fn server() -> std::io::Result<()> {
             .service(index)
             .service(favicon)
             .service(stats::index)
-            .service(
-                web::scope("/private")
-                    // Main content
-                    .service(private::index)
-                    // Correct
-                    .service(private::correct::main)
-                    .service(private::correct::content)
-                    .service(private::correct::modifiers)
-                    .service(private::correct::syntax)
-                    // Transliterate
-                    .service(private::transliterate::main)
-                    .service(private::transliterate::content),
-            )
-            .service(
-                web::scope("/tools")
-                    // Main content
-                    .service(tools::index)
-                    // Number to word
-                    .service(tools::number::main)
-                    .service(tools::number::content)
-                    .service(tools::number::integer)
-                    .service(tools::number::float)
-                    // Tokenizer
-                    .service(tools::tokenize::main)
-                    .service(tools::tokenize::content)
-                    // Alphabetical ordering
-                    .service(tools::alphabetic::main)
-                    .service(tools::alphabetic::content),
-            )
-            .service(
-                web::scope("/utils")
-                    // Main content
-                    .service(utils::index)
-                    // Duplicates
-                    .service(utils::duplicate::main)
-                    .service(utils::duplicate::content)
-                    // Frequency
-                    .service(utils::frequency::main)
-                    .service(utils::frequency::content),
-            )
+            // Correct
+            .service(private::correct::main)
+            .service(private::correct::content)
+            .service(private::correct::modifiers)
+            .service(private::correct::syntax)
+            // Transliterate
+            .service(private::transliterate::main)
+            .service(private::transliterate::content)
+            // Number to word
+            .service(tools::number::main)
+            .service(tools::number::content)
+            .service(tools::number::integer)
+            .service(tools::number::float)
+            // Tokenizer
+            .service(tools::tokenize::main)
+            .service(tools::tokenize::content)
+            // Alphabetical ordering
+            .service(tools::alphabetic::main)
+            .service(tools::alphabetic::content)
+            // Duplicates
+            .service(utils::duplicate::main)
+            .service(utils::duplicate::content)
+            // Frequency
+            .service(utils::frequency::main)
+            .service(utils::frequency::content)
+            // Not found
             .default_service(web::route().to(error::index))
     })
     .workers(std::env::var("THREADS").unwrap().parse().unwrap())

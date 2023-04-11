@@ -7,7 +7,7 @@ use serde_json::json;
 
 #[get("/tokenize")]
 pub async fn main() -> HttpResponse {
-    HttpResponse::Ok().json(json!({
+    HttpResponse::BadRequest().json(json!({
         "endpoint": "/tokenize",
         "docs": "https://docs.korrektor.uz/tokenize"
     }))
@@ -22,7 +22,6 @@ pub async fn content(body: web::Json<Request>, auth: BearerAuth) -> HttpResponse
     middleware(
         HttpResponse::Ok().json(json!({
             "message": "tools/tokenize",
-            "query": content,
             "content": process
         })),
         auth,
