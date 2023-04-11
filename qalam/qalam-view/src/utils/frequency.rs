@@ -34,12 +34,11 @@ mod tests {
 
         let response = json!({
             "message": "utils/duplicate",
-            "query": text_content,
             "content": process
         });
 
         let static_json =
-            "{\"content\":{\"hello\":2,\"sam\":1},\"message\":\"utils/duplicate\",\"query\":\"hello sam hello\"}";
+            "{\"content\":{\"hello\":2,\"sam\":1},\"message\":\"utils/duplicate\"}";
 
         assert_eq!(serde_json::to_string(&response).unwrap(), static_json);
     }

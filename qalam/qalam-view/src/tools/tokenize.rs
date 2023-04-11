@@ -39,12 +39,11 @@ mod tests {
 
         let response = json!({
             "message": "tools/tokenize",
-            "query": text_content,
             "content": process
         });
 
         let static_json =
-            "{\"content\":\"si-ngil chi-roy-li чи-рой-ли\",\"message\":\"tools/tokenize\",\"query\":\"singil chiroyli чиройли\"}";
+            "{\"content\":\"si-ngil chi-roy-li чи-рой-ли\",\"message\":\"tools/tokenize\"}";
 
         assert_eq!(serde_json::to_string(&response).unwrap(), static_json);
     }

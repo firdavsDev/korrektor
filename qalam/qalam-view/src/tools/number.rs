@@ -32,7 +32,6 @@ pub async fn content(body: web::Json<Request>, auth: BearerAuth) -> HttpResponse
             middleware(
                 HttpResponse::BadRequest().json(json!({
                     "message": "tools/number/content",
-                    "query": text_content,
                     "content": error
                 })),
                 auth,
@@ -60,7 +59,6 @@ pub async fn integer(body: web::Json<Request>, auth: BearerAuth) -> HttpResponse
             middleware(
                 HttpResponse::BadRequest().json(json!({
                     "message": "tools/number/integer",
-                    "query": text_content,
                     "content": error
                 })),
                 auth,
@@ -88,7 +86,6 @@ pub async fn float(body: web::Json<Request>, auth: BearerAuth) -> HttpResponse {
             middleware(
                 HttpResponse::BadRequest().json(json!({
                     "message": "tools/number/float",
-                    "query": text_content,
                     "content": error
                 })),
                 auth,
@@ -110,20 +107,18 @@ mod tests {
             Ok(result) => {
                 json!({
                     "message": "tools/number/content",
-                    "query": text,
                     "content": result
                 })
             }
             Err(err) => {
                 json!({
                     "message": "tools/number/content",
-                    "query": text,
                     "content": err
                 })
             }
         };
 
-        let static_json = "{\"content\":\"o‘n ikki, 998336523409 o‘n ikki butun o‘ndan besh\",\"message\":\"tools/number/content\",\"query\":\"12, 998336523409 12.5\"}";
+        let static_json = "{\"content\":\"o‘n ikki, 998336523409 o‘n ikki butun o‘ndan besh\",\"message\":\"tools/number/content\"}";
 
         assert_eq!(serde_json::to_string(&response).unwrap(), static_json);
     }
@@ -137,21 +132,19 @@ mod tests {
             Ok(result) => {
                 json!({
                     "message": "tools/number/integer",
-                    "query": text,
                     "content": result
                 })
             }
             Err(err) => {
                 json!({
                     "message": "tools/number/integer",
-                    "query": text,
                     "content": err
                 })
             }
         };
 
         let static_json =
-            "{\"content\":\"o‘n ikki\",\"message\":\"tools/number/integer\",\"query\":\"12\"}";
+            "{\"content\":\"o‘n ikki\",\"message\":\"tools/number/integer\"}";
 
         assert_eq!(serde_json::to_string(&response).unwrap(), static_json);
     }
@@ -165,20 +158,18 @@ mod tests {
             Ok(result) => {
                 json!({
                     "message": "tools/number/float",
-                    "query": text,
                     "content": result
                 })
             }
             Err(err) => {
                 json!({
                     "message": "tools/number/float",
-                    "query": text,
                     "content": err
                 })
             }
         };
 
-        let static_json = "{\"content\":\"o‘n ikki butun yuzdan yigirma besh\",\"message\":\"tools/number/float\",\"query\":\"12.25\"}";
+        let static_json = "{\"content\":\"o‘n ikki butun yuzdan yigirma besh\",\"message\":\"tools/number/float\"}";
 
         assert_eq!(serde_json::to_string(&response).unwrap(), static_json);
     }

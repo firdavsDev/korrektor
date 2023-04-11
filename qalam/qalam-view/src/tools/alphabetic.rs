@@ -32,7 +32,6 @@ pub async fn content(body: web::Json<Request>, auth: BearerAuth) -> HttpResponse
             middleware(
                 HttpResponse::BadRequest().json(json!({
                     "message": "tools/alphabetic",
-                    "query": content,
                     "content": error
                 })),
                 auth,
@@ -54,21 +53,19 @@ mod tests {
             Ok(result) => {
                 json!({
                     "message": "tools/alphabetic",
-                    "query": text,
                     "content": result
                 })
             }
             Err(err) => {
                 json!({
                     "message": "tools/alphabetic",
-                    "query": text,
                     "content": err
                 })
             }
         };
 
         let static_json =
-            "{\"content\":\"estafeta o‘zbek chilonzor chiroyli G‘ozal\",\"message\":\"tools/alphabetic\",\"query\":\"G‘ozal estafeta chilonzor o'zbek chiroyli\"}";
+            "{\"content\":\"estafeta o‘zbek chilonzor chiroyli G‘ozal\",\"message\":\"tools/alphabetic\"}";
 
         assert_eq!(serde_json::to_string(&response).unwrap(), static_json);
     }
