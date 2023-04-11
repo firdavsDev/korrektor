@@ -21,7 +21,7 @@ pub async fn content(body: web::Json<Request>, auth: BearerAuth) -> HttpResponse
 
     middleware(
         HttpResponse::Ok().json(json!({
-            "message": "tools/tokenize",
+            "message": "/tokenize",
             "content": process
         })),
         auth,
@@ -38,12 +38,12 @@ mod tests {
         let process = tokenize::split_text(text_content);
 
         let response = json!({
-            "message": "tools/tokenize",
+            "message": "/tokenize",
             "content": process
         });
 
         let static_json =
-            "{\"content\":\"si-ngil chi-roy-li чи-рой-ли\",\"message\":\"tools/tokenize\"}";
+            "{\"content\":\"si-ngil chi-roy-li чи-рой-ли\",\"message\":\"/tokenize\"}";
 
         assert_eq!(serde_json::to_string(&response).unwrap(), static_json);
     }

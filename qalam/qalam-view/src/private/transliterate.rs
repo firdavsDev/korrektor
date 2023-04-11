@@ -26,7 +26,7 @@ pub async fn content(
 
     middleware(
         HttpResponse::Ok().json(json!({
-            "message": "private/transliterate",
+            "message": "/transliterate",
             "content": process
         })),
         auth,
@@ -44,13 +44,12 @@ mod tests {
         let process = transliterator::to(text_content.to_string(), "lat");
 
         let response = json!({
-            "message": "private/correct/transliterate",
-            "query": text_content,
+            "message": "/transliterate",
             "content": process
         });
 
         let static_json =
-            "{\"content\":\"g‘ozal GʼOZAL Gʼozal geliy\",\"message\":\"private/correct/transliterate\",\"query\":\"ғозал ҒОЗАЛ Ғозал гелий\"}";
+            "{\"content\":\"g‘ozal GʼOZAL Gʼozal geliy\",\"message\":\"/transliterate\"}";
 
         assert_eq!(serde_json::to_string(&response).unwrap(), static_json);
     }
@@ -61,13 +60,12 @@ mod tests {
         let process = transliterator::to(text_content.to_string(), "cyr");
 
         let response = json!({
-            "message": "private/correct/transliterate",
-            "query": text_content,
+            "message": "/transliterate",
             "content": process
         });
 
         let static_json =
-            "{\"content\":\"ғозал ҒОЗАЛ Ғозал гелий\",\"message\":\"private/correct/transliterate\",\"query\":\"g'ozal G'OZAL G'ozal geliy\"}";
+            "{\"content\":\"ғозал ҒОЗАЛ Ғозал гелий\",\"message\":\"/transliterate\"}";
 
         assert_eq!(serde_json::to_string(&response).unwrap(), static_json);
     }

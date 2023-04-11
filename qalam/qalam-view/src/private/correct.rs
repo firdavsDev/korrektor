@@ -27,7 +27,7 @@ pub async fn content(
 
     middleware(
         HttpResponse::Ok().json(json!({
-            "message": "private/correct/content",
+            "message": "/correct/content",
             "content": process
         })),
         auth,
@@ -42,7 +42,7 @@ pub async fn modifiers(body: web::Json<Request>, auth: BearerAuth) -> HttpRespon
 
     middleware(
         HttpResponse::Ok().json(json!({
-            "message": "private/correct/modifiers",
+            "message": "/correct/modifiers",
             "content": process
         })),
         auth,
@@ -57,7 +57,7 @@ pub async fn syntax(body: web::Json<Request>, auth: BearerAuth) -> HttpResponse 
 
     middleware(
         HttpResponse::Ok().json(json!({
-            "message": "private/correct/syntax",
+            "message": "/correct/syntax",
             "content": process
         })),
         auth,
@@ -75,8 +75,7 @@ mod tests {
         let process_lat = corrector::get_correction_suggestions(text_content_lat, "lat");
 
         let response = json!({
-            "message": "private/correct/content",
-            "query": text_content_lat,
+            "message": "/correct/content",
             "content": process_lat
         });
 
@@ -95,7 +94,7 @@ mod tests {
 
         let static_json = "{\"content\":[".to_string()
             + &serde_json::to_string(&errors_lat).unwrap()
-            + "],\"message\":\"private/correct/content\",\"query\":\"chroyli\"}";
+            + "],\"message\":\"/correct/content\"}";
 
         assert_eq!(&serde_json::to_string(&response).unwrap(), &static_json);
     }
@@ -106,7 +105,7 @@ mod tests {
         let process_cyr = corrector::get_correction_suggestions(text_content_cyr, "cyr");
 
         let response = json!({
-            "message": "private/correct/content",
+            "message": "/correct/content",
             "query": text_content_cyr,
             "content": process_cyr
         });
@@ -126,7 +125,7 @@ mod tests {
 
         let static_json = "{\"content\":[".to_string()
             + &serde_json::to_string(&errors_cyr).unwrap()
-            + "],\"message\":\"private/correct/content\",\"query\":\"чройли\"}";
+            + "],\"message\":\"/correct/content\",\"query\":\"чройли\"}";
 
         assert_eq!(&serde_json::to_string(&response).unwrap(), &static_json);
     }
@@ -137,13 +136,12 @@ mod tests {
         let process = corrector::remove_modifiers(text_content);
 
         let response = json!({
-            "message": "private/correct/modifiers",
-            "query": text_content,
+            "message": "/correct/modifiers",
             "content": process
         });
 
         let static_json =
-            "{\"content\":\"stul  stul\",\"message\":\"private/correct/modifiers\",\"query\":\"stul- stul-ku\"}";
+            "{\"content\":\"stul  stul\",\"message\":\"/correct/modifiers\"}";
 
         assert_eq!(serde_json::to_string(&response).unwrap(), static_json);
     }
@@ -154,13 +152,12 @@ mod tests {
         let process = corrector::correct(text_content);
 
         let response = json!({
-            "message": "private/correct/syntax",
-            "query": text_content,
+            "message": "/correct/syntax",
             "content": process
         });
 
         let static_json =
-            "{\"content\":\"2022 йил 12-yanvar go‘zal\",\"message\":\"private/correct/syntax\",\"query\":\"2022-йил 12 yanvar go'zal\"}";
+            "{\"content\":\"2022 йил 12-yanvar go‘zal\",\"message\":\"/correct/syntax\"}";
 
         assert_eq!(serde_json::to_string(&response).unwrap(), static_json);
     }

@@ -18,7 +18,7 @@ pub async fn content(body: web::Json<Request>) -> HttpResponse {
     let process = duplicates::remove(&content);
 
     HttpResponse::Ok().json(json!({
-        "message": "utils/duplicate",
+        "message": "/duplicate",
         "content": process
     }))
 }
@@ -33,12 +33,12 @@ mod tests {
         let process = duplicates::remove(text_content);
 
         let response = json!({
-            "message": "utils/duplicate",
+            "message": "/duplicate",
             "content": process
         });
 
         let static_json =
-            "{\"content\":\"hello sam\",\"message\":\"utils/duplicate\"}";
+            "{\"content\":\"hello sam\",\"message\":\"/duplicate\"}";
 
         assert_eq!(serde_json::to_string(&response).unwrap(), static_json);
     }

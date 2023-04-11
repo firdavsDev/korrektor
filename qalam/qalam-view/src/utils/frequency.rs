@@ -18,7 +18,7 @@ pub async fn content(body: web::Json<Request>) -> HttpResponse {
     let process = frequency::count(content.as_str());
 
     HttpResponse::Ok().json(json!({
-        "message": "utils/frequency",
+        "message": "/frequency",
         "content": process
     }))
 }
@@ -33,12 +33,12 @@ mod tests {
         let process = frequency::count(text_content);
 
         let response = json!({
-            "message": "utils/duplicate",
+            "message": "/frequency",
             "content": process
         });
 
         let static_json =
-            "{\"content\":{\"hello\":2,\"sam\":1},\"message\":\"utils/duplicate\"}";
+            "{\"content\":{\"hello\":2,\"sam\":1},\"message\":\"/frequency\"}";
 
         assert_eq!(serde_json::to_string(&response).unwrap(), static_json);
     }

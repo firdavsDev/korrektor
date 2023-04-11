@@ -22,7 +22,7 @@ pub async fn content(body: web::Json<Request>, auth: BearerAuth) -> HttpResponse
     match process {
         Ok(result) => middleware(
             HttpResponse::Ok().json(json!({
-                "message": "tools/number/content",
+                "message": "/number/content",
                 "content": result
             })),
             auth,
@@ -31,7 +31,7 @@ pub async fn content(body: web::Json<Request>, auth: BearerAuth) -> HttpResponse
             let error = err.to_string();
             middleware(
                 HttpResponse::BadRequest().json(json!({
-                    "message": "tools/number/content",
+                    "message": "/number/content",
                     "content": error
                 })),
                 auth,
@@ -49,7 +49,7 @@ pub async fn integer(body: web::Json<Request>, auth: BearerAuth) -> HttpResponse
     match process {
         Ok(result) => middleware(
             HttpResponse::Ok().json(json!({
-                "message": "tools/number/integer",
+                "message": "/number/integer",
                 "content": result
             })),
             auth,
@@ -58,7 +58,7 @@ pub async fn integer(body: web::Json<Request>, auth: BearerAuth) -> HttpResponse
             let error = err.to_string();
             middleware(
                 HttpResponse::BadRequest().json(json!({
-                    "message": "tools/number/integer",
+                    "message": "/number/integer",
                     "content": error
                 })),
                 auth,
@@ -76,7 +76,7 @@ pub async fn float(body: web::Json<Request>, auth: BearerAuth) -> HttpResponse {
     match process {
         Ok(result) => middleware(
             HttpResponse::Ok().json(json!({
-                "message": "tools/number/float",
+                "message": "/number/float",
                 "content": result
             })),
             auth,
@@ -85,7 +85,7 @@ pub async fn float(body: web::Json<Request>, auth: BearerAuth) -> HttpResponse {
             let error = err.to_string();
             middleware(
                 HttpResponse::BadRequest().json(json!({
-                    "message": "tools/number/float",
+                    "message": "/number/float",
                     "content": error
                 })),
                 auth,
@@ -106,19 +106,19 @@ mod tests {
         let response = match process {
             Ok(result) => {
                 json!({
-                    "message": "tools/number/content",
+                    "message": "/number/content",
                     "content": result
                 })
             }
             Err(err) => {
                 json!({
-                    "message": "tools/number/content",
+                    "message": "/number/content",
                     "content": err
                 })
             }
         };
 
-        let static_json = "{\"content\":\"o‘n ikki, 998336523409 o‘n ikki butun o‘ndan besh\",\"message\":\"tools/number/content\"}";
+        let static_json = "{\"content\":\"o‘n ikki, 998336523409 o‘n ikki butun o‘ndan besh\",\"message\":\"/number/content\"}";
 
         assert_eq!(serde_json::to_string(&response).unwrap(), static_json);
     }
@@ -131,20 +131,20 @@ mod tests {
         let response = match process {
             Ok(result) => {
                 json!({
-                    "message": "tools/number/integer",
+                    "message": "/number/integer",
                     "content": result
                 })
             }
             Err(err) => {
                 json!({
-                    "message": "tools/number/integer",
+                    "message": "/number/integer",
                     "content": err
                 })
             }
         };
 
         let static_json =
-            "{\"content\":\"o‘n ikki\",\"message\":\"tools/number/integer\"}";
+            "{\"content\":\"o‘n ikki\",\"message\":\"/number/integer\"}";
 
         assert_eq!(serde_json::to_string(&response).unwrap(), static_json);
     }
@@ -157,19 +157,19 @@ mod tests {
         let response = match process {
             Ok(result) => {
                 json!({
-                    "message": "tools/number/float",
+                    "message": "/number/float",
                     "content": result
                 })
             }
             Err(err) => {
                 json!({
-                    "message": "tools/number/float",
+                    "message": "/number/float",
                     "content": err
                 })
             }
         };
 
-        let static_json = "{\"content\":\"o‘n ikki butun yuzdan yigirma besh\",\"message\":\"tools/number/float\"}";
+        let static_json = "{\"content\":\"o‘n ikki butun yuzdan yigirma besh\",\"message\":\"/number/float\"}";
 
         assert_eq!(serde_json::to_string(&response).unwrap(), static_json);
     }
